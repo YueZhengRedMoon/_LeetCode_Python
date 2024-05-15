@@ -1,17 +1,16 @@
-class Solution:
-    def __int__(self):
-        self.memo = {}
+from functools import cache
 
+
+# 超时
+class Solution:
     def findMinStep(self, board: str, hand: str) -> int:
         self.memo = {}
         hand = ''.join(sorted(hand))
         ans = self.dfs(board, hand)
         return ans if ans != float('inf') else -1
 
+    @cache
     def dfs(self, board: str, hand: str) -> int:
-        if board in self.memo:
-            return self.memo[board]
-
         n = len(board)
         if n == 0:
             return 0
@@ -24,7 +23,6 @@ class Solution:
                 res = self.dfs(new_board, new_hand)
                 ans = min(ans, res + 1)
 
-        self.memo[board] = ans
         return ans
 
     def remove(self, board: str, x: int, y: int) -> str:
